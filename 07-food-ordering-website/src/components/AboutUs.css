@@ -1,0 +1,65 @@
+/* creators-page.css */
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  width: calc(50% - 10px); /* Adjust the width as needed and subtract the desired gap value (10px in this example) */
+  margin: 10px; /* Add margin to create the gap between cards */
+  display: inline-block; /* Display the cards inline to align them horizontally */
+  text-align: center; /* Center align the content within each card */
+  padding: 15px; /* Add padding to create a margin between text and the border */
+}
+
+
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Optional: Add margin to the entire row */
+.row {
+  margin: 0 -15px;
+}
+
+/* Optional: Adjust column margins */
+.col-md-3 {
+  padding: 0 15px;
+}
+
+/* Add these styles to your CSS file (AboutUs.css) */
+.creator-image {
+  max-width: 100%; /* Adjust the maximum width as needed */
+  height: auto; /* Allow the image to maintain its aspect ratio */
+}
+
+/* Add these styles to your CSS file (AboutUs.css) */
+.card-img {
+  max-width: 400px; /* Set the maximum width to 100% of the card */
+  height: 250px; /* Allow the image to maintain its aspect ratio */
+}
