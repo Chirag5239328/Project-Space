@@ -1,0 +1,12 @@
+streamlit
+boto3
+pydub
+torchaudio
+transformers
+langdetect
+numpy
+requests
+torch
+google-generativeai
+langchain-google-genai
+langchain
