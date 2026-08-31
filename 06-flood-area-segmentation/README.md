@@ -1,633 +1,1431 @@
-````markdown
-# Flood Area Segmentation Using Deep Learning
+# Flood Area Segmentation Using U-Net
 
-## Project Overview
+A deep learning project for **flood area segmentation from images using a custom U-Net architecture built with TensorFlow and Keras**.
 
-This project focuses on identifying and segmenting flood-affected areas in images using a convolutional neural network (CNN) based image segmentation model.
-
-The project was developed as one component of a larger team-based Streamlit application created during the 7th semester of my B.Tech in Data Science. The overall application combined multiple machine learning and deep learning tasks, including image segmentation, image classification, prediction, text generation and text classification. Each member of the five-person team was responsible for one component.
-
-I was responsible for developing the flood area segmentation component.
-
-The objective was to train a model that could take a flood-related image and generate a pixel-level segmentation mask indicating the areas identified as flood-affected.
+The objective of this project is to automatically identify and segment flooded regions in input images by generating a binary segmentation mask. The project uses paired RGB images and grayscale ground-truth masks, preprocesses them to a fixed resolution, trains a U-Net model, visualizes its predictions, and saves the trained model for later use.
 
 ---
 
-## Project Details
+## Table of Contents
 
-| Attribute | Details |
-|-----------|---------|
-| Project Name | Flood Area Segmentation Using Deep Learning |
-| Project Type | Academic Team Project |
-| Semester | 7th Semester |
-| Team Size | 5 members |
-| My Role | Developed the Flood Area Segmentation Component |
-| Primary Area | Computer Vision and Deep Learning |
-| Programming Language | Python |
-| Deep Learning Framework | TensorFlow / Keras |
-| Interface | Streamlit |
-| Dataset | Flood Images with Corresponding Segmentation Masks |
-| Image Size | 256 × 256 pixels |
-| Usable Image-Mask Pairs | 289 |
-| Train/Test Split | 80:20 |
+* [Overview](#overview)
+* [Problem Statement](#problem-statement)
+* [Objective](#objective)
+* [How It Works](#how-it-works)
+* [Dataset](#dataset)
+* [Data Preprocessing](#data-preprocessing)
+* [Model Architecture](#model-architecture)
+* [Training](#training)
+* [Results](#results)
+* [Prediction and Visualization](#prediction-and-visualization)
+* [Model Saving and Loading](#model-saving-and-loading)
+* [Technologies Used](#technologies-used)
+* [Project Structure](#project-structure)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Important Notes](#important-notes)
+* [Limitations](#limitations)
+* [Future Improvements](#future-improvements)
+* [License](#license)
+
+---
+
+## Overview
+
+Flooding is a major natural hazard that can cause significant damage to infrastructure, agriculture, property, and human settlements. Identifying flooded regions quickly from images can support disaster assessment and response activities.
+
+This project approaches flood detection as an **image segmentation problem** rather than simple image classification.
+
+Instead of predicting only whether an image contains flooding, the model attempts to determine **which pixels belong to the flooded region**.
+
+The project implements a U-Net-based semantic segmentation model that takes a `256 × 256 × 3` RGB image as input and produces a `256 × 256 × 1` binary mask as output.
+
+### Input
+
+An RGB image containing a potentially flooded area.
+
+### Output
+
+A binary segmentation mask indicating the predicted flooded region.
+
+### Conceptual Workflow
+
+```text
+Input Image
+     │
+     ▼
+Data Preprocessing
+     │
+     ▼
+U-Net Model
+     │
+     ▼
+Pixel-wise Prediction
+     │
+     ▼
+Binary Flood Mask
+```
 
 ---
 
 ## Problem Statement
 
-Flood-related images can contain large and complex affected regions, making it useful to identify not only whether flooding is present but also where the affected areas are located.
+Given an image of an area potentially affected by flooding, the goal is to automatically identify the pixels corresponding to the flooded area.
 
-A conventional image classification model could classify an image as containing flooding, but it would not indicate the exact region affected by the flood.
+This is formulated as a **binary semantic segmentation** task:
 
-This project therefore approached the problem as an **image segmentation** task, where the model learns to produce a mask corresponding to the flood-affected region of an input image.
+* `0` represents background/non-flooded pixels.
+* `1` represents flooded pixels.
+
+The model learns this mapping from input images and their corresponding manually provided segmentation masks.
 
 ---
 
 ## Objective
 
-The main objectives of the project were to:
+The primary objectives of this project are:
 
-- Load a dataset containing flood images and their corresponding segmentation masks.
-- Match each image with its corresponding mask.
-- Preprocess the images and masks into a consistent format.
-- Resize the data to a fixed 256 × 256 resolution.
-- Normalize pixel values for model training.
-- Split the prepared data into training and testing sets.
-- Develop a U-Net-style convolutional neural network for image segmentation.
-- Train the model to generate segmentation masks.
-- Compare predicted masks with the corresponding true masks.
-- Save and reload the trained model for later use.
+1. Load paired flood images and segmentation masks.
+2. Match images with their corresponding masks using common filenames.
+3. Resize images and masks to a consistent resolution.
+4. Normalize pixel values.
+5. Split the dataset into training and testing sets.
+6. Build a U-Net segmentation architecture from scratch.
+7. Train the model using binary cross-entropy loss.
+8. Monitor model performance using pixel-level accuracy and validation loss.
+9. Generate segmentation masks for previously unseen test images.
+10. Visually compare:
 
----
+* Original image
+* Ground-truth mask
+* Predicted mask
 
-## Dataset
-
-The project used a dataset containing two corresponding sets of files:
-
-```text
-Image/
-Mask/
-````
-
-The image directory contained the input flood images, while the mask directory contained the corresponding grayscale segmentation masks.
-
-The image and mask filenames were used to determine which files belonged together.
-
-The project specifically searched for common filenames between the two directories and used only image-mask pairs for which both files were available.
-
-After loading and validating the data, **289 usable image-mask pairs** were prepared for the project.
+11. Save the trained model for future use.
 
 ---
 
-## Data Preprocessing
+# How It Works
 
-### Image and Mask Matching
-
-The project first extracted filenames from both the image and mask directories.
-
-The filenames were compared after removing their extensions, and only files present in both directories were considered.
-
-For each common filename:
-
-* The input image was loaded as a colour image.
-* The corresponding mask was loaded as a grayscale image.
-* Failed image or mask loads were detected and excluded.
-* Both were resized to 256 × 256 pixels.
-
-This ensured that each training example consisted of a correctly matched input image and target mask.
-
-### Image Resizing
-
-All images and masks were resized to:
+The complete workflow implemented in the notebook can be summarized as follows:
 
 ```text
-256 × 256 pixels
+                    ┌─────────────────────┐
+                    │   Flood Dataset     │
+                    │ Images + Masks      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Match Image & Mask  │
+                    │ Using File Names    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Resize to 256×256   │
+                    │ Normalize [0, 1]    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Train/Test Split    │
+                    │ 80% / 20%           │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       U-Net         │
+                    │  Encoder-Decoder    │
+                    │  + Skip Connections │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Binary Segmentation │
+                    │ Mask Prediction     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Visualization       │
+                    │ True vs Predicted   │
+                    └─────────────────────┘
 ```
 
-The model therefore received inputs with a consistent spatial resolution.
+---
 
-### Normalization
+# Dataset
 
-Pixel values were normalized by dividing them by 255.
+The notebook uses a dataset organized into two directories:
 
-This converted the values to approximately:
+```text
+Dataset/
+├── Image/
+│   ├── 0.jpg
+│   ├── 1.jpg
+│   ├── 2.jpg
+│   ├── ...
+│
+└── Mask/
+    ├── 0.png
+    ├── 1.png
+    ├── 2.png
+    ├── ...
+```
+
+Each image has a corresponding segmentation mask with the same filename stem.
+
+For example:
+
+```text
+Image/2048.jpg
+Mask/2048.png
+```
+
+The notebook identifies matching image-mask pairs by comparing filenames without their extensions.
+
+### Dataset Statistics
+
+The notebook successfully loaded:
+
+* **289 images**
+* **289 corresponding masks**
+* **231 training samples**
+* **58 test samples**
+
+The 231/58 split corresponds to the 80/20 train-test split used in the notebook.
+
+One image, `0.jpg`, failed to load during the execution shown in the notebook and was skipped by the loading function.
+
+---
+
+# Data Preprocessing
+
+The preprocessing pipeline is implemented using OpenCV and NumPy.
+
+## 1. Image-Mask Matching
+
+The notebook first extracts filenames without their extensions:
+
+```python
+image_names = [os.path.splitext(f)[0] for f in os.listdir(image_dir)]
+mask_names = [os.path.splitext(f)[0] for f in os.listdir(mask_dir)]
+```
+
+The intersection of these filenames is then used to identify valid image-mask pairs.
+
+This ensures that an image is only loaded when a corresponding mask exists.
+
+---
+
+## 2. Image Loading
+
+Input images are loaded using OpenCV:
+
+```python
+image = cv2.imread(image_path)
+```
+
+Masks are loaded as grayscale images:
+
+```python
+mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+```
+
+Therefore:
+
+* Input image: 3-channel image
+* Segmentation mask: single-channel grayscale image
+
+---
+
+## 3. Resizing
+
+All images and masks are resized to:
+
+```text
+256 × 256
+```
+
+This is controlled by:
+
+```python
+IMAGE_SIZE = 256
+```
+
+The input dimensions expected by the model are therefore:
+
+```text
+256 × 256 × 3
+```
+
+---
+
+## 4. Normalization
+
+Pixel values are normalized from:
+
+```text
+0 to 255
+```
+
+to:
 
 ```text
 0 to 1
 ```
 
-The same normalization approach was applied to the images and masks.
+using:
 
-### Data Validation
+```python
+image = image / 255.0
+mask = mask / 255.0
+```
 
-The notebook included checks to identify whether images or masks failed to load correctly.
-
-It also printed the number of successfully loaded images and masks to verify that the dataset had been prepared correctly.
+This normalization is applied to both the input images and segmentation masks.
 
 ---
 
-## Train/Test Split
+## 5. Train-Test Split
 
-The prepared image-mask pairs were divided into training and testing datasets using an 80:20 split.
+The processed dataset is divided using:
 
-```text
-80% → Training Data
-20% → Testing Data
+```python
+train_test_split(
+    images,
+    masks,
+    test_size=0.2,
+    random_state=42
+)
 ```
 
-A fixed random state was used so that the split could be reproduced.
+The resulting split is:
 
-The training data was used to train the segmentation model, while the test data was used for generating predictions and comparing the predicted masks against the actual masks.
+```text
+80% Training
+20% Testing
+```
+
+With 289 successfully loaded samples:
+
+```text
+Training: 231 samples
+Testing:   58 samples
+```
+
+The random seed is fixed at `42` to make the split reproducible.
 
 ---
 
-## Model Architecture
+# Model Architecture
 
-The project implemented a **U-Net-style convolutional neural network** using TensorFlow and Keras.
+The project uses a **U-Net-style encoder-decoder architecture** implemented from scratch using TensorFlow/Keras.
 
-The architecture follows an encoder-decoder structure.
+U-Net is designed for semantic segmentation by combining:
 
-### Encoder / Downsampling Path
+* Downsampling for learning high-level features
+* Upsampling for recovering spatial resolution
+* Skip connections for preserving spatial information
 
-The downsampling section progressively extracts higher-level features from the input image.
+The model is created using:
 
-It consists of convolutional blocks followed by max-pooling operations.
-
-The convolutional blocks use:
-
-* `Conv2D`
-* ReLU activation
-* Same padding
-
-The number of filters increases through the encoder:
-
-```text
-64
-128
-256
-512
-```
-
-This allows the network to progressively learn more complex representations from the image.
-
-### Bottleneck
-
-At the deepest part of the network, the model uses convolutional layers with:
-
-```text
-1024 filters
-```
-
-The bottleneck represents the compressed feature representation of the input image.
-
-### Decoder / Upsampling Path
-
-The decoder progressively increases the spatial resolution of the feature representation.
-
-The project uses:
-
-* `UpSampling2D`
-* `Concatenate`
-* `Conv2D`
-
-The upsampled feature maps are concatenated with corresponding feature maps from the encoder.
-
-This allows the decoder to recover spatial information that is important for pixel-level segmentation.
-
-The decoder progressively reduces the number of filters:
-
-```text
-512
-256
-128
-64
-```
-
-### Output Layer
-
-The final layer uses a 1 × 1 convolution with a single output channel and sigmoid activation.
-
-The resulting output represents the predicted segmentation mask.
-
----
-
-## Model Structure
-
-The overall architecture can be represented as:
-
-```text
-Input Image
-    |
-    v
-Convolution Block - 64 filters
-    |
-    v
-Max Pooling
-    |
-    v
-Convolution Block - 128 filters
-    |
-    v
-Max Pooling
-    |
-    v
-Convolution Block - 256 filters
-    |
-    v
-Max Pooling
-    |
-    v
-Convolution Block - 512 filters
-    |
-    v
-Max Pooling
-    |
-    v
-Bottleneck - 1024 filters
-    |
-    v
-Upsampling + Skip Connection
-    |
-    v
-Convolution Block - 512 filters
-    |
-    v
-Upsampling + Skip Connection
-    |
-    v
-Convolution Block - 256 filters
-    |
-    v
-Upsampling + Skip Connection
-    |
-    v
-Convolution Block - 128 filters
-    |
-    v
-Upsampling + Skip Connection
-    |
-    v
-Convolution Block - 64 filters
-    |
-    v
-1 × 1 Convolution + Sigmoid
-    |
-    v
-Predicted Flood Segmentation Mask
+```python
+def unet_model(input_size=(256, 256, 3)):
 ```
 
 ---
 
-## Model Compilation
+## U-Net Structure
 
-The segmentation model was compiled using the Adam optimizer.
+The architecture consists of three main sections:
 
-The loss function used was:
+1. Encoder / Downsampling path
+2. Bottleneck
+3. Decoder / Upsampling path
+
+### High-Level Architecture
+
+```text
+Input
+256 × 256 × 3
+       │
+       ▼
+┌─────────────────┐
+│ Conv 64         │
+│ Conv 64         │
+└────────┬────────┘
+         │
+         ├──────────────────────────────┐
+         ▼                              │
+    Max Pooling                         │
+         │                              │
+         ▼                              │
+┌─────────────────┐                     │
+│ Conv 128        │                     │
+│ Conv 128        │                     │
+└────────┬────────┘                     │
+         │                              │
+         ├──────────────────────┐       │
+         ▼                      │       │
+    Max Pooling                 │       │
+         │                      │       │
+         ▼                      │       │
+┌─────────────────┐             │       │
+│ Conv 256        │             │       │
+│ Conv 256        │             │       │
+└────────┬────────┘             │       │
+         │                      │       │
+         ├──────────────┐       │       │
+         ▼              │       │       │
+    Max Pooling         │       │       │
+         │              │       │       │
+         ▼              │       │       │
+┌─────────────────┐     │       │       │
+│ Conv 512        │     │       │       │
+│ Conv 512        │     │       │       │
+└────────┬────────┘     │       │       │
+         │              │       │       │
+         ▼              │       │       │
+    Max Pooling         │       │       │
+         │              │       │       │
+         ▼              │       │       │
+┌──────────────────────────────┐
+│        Bottleneck            │
+│        Conv 1024             │
+│        Conv 1024             │
+└──────────────┬───────────────┘
+               │
+               ▼
+          UpSampling
+               │
+          + Skip Connection
+               │
+               ▼
+          Conv 512
+               │
+               ▼
+          UpSampling
+               │
+          + Skip Connection
+               │
+               ▼
+          Conv 256
+               │
+               ▼
+          UpSampling
+               │
+          + Skip Connection
+               │
+               ▼
+          Conv 128
+               │
+               ▼
+          UpSampling
+               │
+          + Skip Connection
+               │
+               ▼
+           Conv 64
+               │
+               ▼
+        1 × 1 Conv + Sigmoid
+               │
+               ▼
+      256 × 256 × 1 Mask
+```
+
+---
+
+# Encoder
+
+The encoder progressively reduces the spatial dimensions while increasing the number of feature channels.
+
+The convolution blocks use:
+
+```python
+Conv2D(..., activation='relu', padding='same')
+```
+
+The encoder contains four downsampling stages.
+
+### Stage 1
+
+```text
+Conv2D: 64 filters
+Conv2D: 64 filters
+MaxPooling2D
+```
+
+### Stage 2
+
+```text
+Conv2D: 128 filters
+Conv2D: 128 filters
+MaxPooling2D
+```
+
+### Stage 3
+
+```text
+Conv2D: 256 filters
+Conv2D: 256 filters
+MaxPooling2D
+```
+
+### Stage 4
+
+```text
+Conv2D: 512 filters
+Conv2D: 512 filters
+MaxPooling2D
+```
+
+---
+
+# Bottleneck
+
+At the deepest point of the network, the model uses:
+
+```text
+Conv2D: 1024 filters
+Conv2D: 1024 filters
+```
+
+This section captures high-level features from the input image before the decoder begins reconstructing the segmentation mask.
+
+---
+
+# Decoder
+
+The decoder progressively restores the original spatial resolution.
+
+Each decoder stage performs:
+
+1. Upsampling
+2. Concatenation with the corresponding encoder feature map
+3. Two convolution layers
+
+The decoder consists of the following feature transitions:
+
+```text
+1024 → 512
+512  → 256
+256  → 128
+128  → 64
+```
+
+---
+
+# Skip Connections
+
+One of the defining characteristics of U-Net is the use of skip connections.
+
+The decoder receives feature maps from corresponding encoder stages:
+
+```python
+u6 = Concatenate()([u6, c4])
+u7 = Concatenate()([u7, c3])
+u8 = Concatenate()([u8, c2])
+u9 = Concatenate()([u9, c1])
+```
+
+These connections allow spatial information captured during the encoder stage to be reused during reconstruction of the segmentation mask.
+
+This helps the network preserve spatial details while producing the final pixel-level segmentation.
+
+---
+
+# Output Layer
+
+The final layer is:
+
+```python
+outputs = Conv2D(
+    1,
+    (1, 1),
+    activation='sigmoid'
+)(c9)
+```
+
+The model therefore produces a single-channel output:
+
+```text
+256 × 256 × 1
+```
+
+The sigmoid activation produces a value between `0` and `1` for each pixel.
+
+During visualization, the predicted output is converted into a binary mask using a threshold of `0.5`:
+
+```python
+predicted_mask = (predicted_mask > 0.5).astype(np.uint8)
+```
+
+Therefore:
+
+```text
+Prediction > 0.5 → 1
+Prediction ≤ 0.5 → 0
+```
+
+---
+
+# Model Compilation
+
+The model is compiled using the Adam optimizer:
+
+```python
+model.compile(
+    optimizer=Adam(),
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+```
+
+### Configuration
+
+| Component         | Configuration        |
+| ----------------- | -------------------- |
+| Architecture      | U-Net                |
+| Input Size        | 256 × 256 × 3        |
+| Output Size       | 256 × 256 × 1        |
+| Optimizer         | Adam                 |
+| Loss              | Binary Cross-Entropy |
+| Metric            | Accuracy             |
+| Output Activation | Sigmoid              |
+
+---
+
+# Training
+
+The model is trained using:
+
+```python
+history = model.fit(
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    epochs=25,
+    batch_size=1
+)
+```
+
+### Training Configuration
+
+```text
+Epochs:              25
+Batch Size:          1
+Training Samples:    231
+Validation Samples:   58
+```
+
+The notebook also contains a fallback mechanism that retries training with a batch size of `8` if a `ValueError` occurs with the initial batch size.
+
+---
+
+# Results
+
+The recorded training run completed all 25 epochs.
+
+The best validation accuracy visible in the notebook occurred at:
+
+```text
+Epoch: 23
+Validation Accuracy: 0.8205
+Validation Loss:     0.3965
+```
+
+The final epoch produced:
+
+```text
+Training Loss:       0.4068
+Training Accuracy:   0.8003
+
+Validation Loss:     0.4618
+Validation Accuracy: 0.7672
+```
+
+Selected training results:
+
+| Epoch | Training Loss | Training Accuracy | Validation Loss | Validation Accuracy |
+| ----: | ------------: | ----------------: | --------------: | ------------------: |
+|     1 |        0.6606 |            0.6581 |          0.5208 |              0.7590 |
+|     5 |        0.5171 |            0.7312 |          0.4923 |              0.7607 |
+|    10 |        0.4852 |            0.7632 |          0.4604 |              0.7804 |
+|    15 |        0.4546 |            0.7699 |          0.5310 |              0.6976 |
+|    20 |        0.4325 |            0.7859 |          0.4528 |              0.7882 |
+|    23 |        0.4265 |            0.7945 |          0.3965 |              0.8205 |
+|    25 |        0.4068 |            0.8003 |          0.4618 |              0.7672 |
+
+The highest recorded validation accuracy was **82.05% at epoch 23**.
+
+> **Note:** The notebook reports pixel-level accuracy and binary cross-entropy loss. It does not calculate segmentation-specific metrics such as IoU/Jaccard, Dice coefficient, precision, recall, or F1 score. Therefore, those metrics are not reported here.
+
+---
+
+# Prediction and Visualization
+
+After training, the notebook evaluates predictions visually using test images.
+
+The prediction function is:
+
+```python
+def display_predictions(model, X_test, y_test, index):
+```
+
+For each selected test image, the model generates a segmentation mask:
+
+```python
+predicted_mask = model.predict(
+    np.expand_dims(X_test[index], axis=0)
+)
+```
+
+The predicted probability map is converted into a binary mask using a threshold of `0.5`:
+
+```python
+predicted_mask = (predicted_mask > 0.5).astype(np.uint8)
+```
+
+The notebook displays three images side-by-side:
+
+```text
+┌──────────────────┬──────────────────┬──────────────────┐
+│  Original Image  │   True Mask      │ Predicted Mask   │
+└──────────────────┴──────────────────┴──────────────────┘
+```
+
+Predictions are visualized for the first five test images.
+
+This provides a qualitative comparison between the ground-truth segmentation and the model's predicted segmentation.
+
+---
+
+# Model Saving
+
+After training, the model is saved using Keras:
+
+```python
+model.save('flood_segmentation_model2.h5')
+```
+
+This creates an HDF5 model file containing the trained model.
+
+The saved model can subsequently be loaded without retraining.
+
+---
+
+# Model Loading
+
+The notebook also demonstrates loading a previously saved model:
+
+```python
+model = tf.keras.models.load_model(model_path)
+```
+
+After loading, the notebook confirms that the model was loaded successfully.
+
+The loaded model can then be used for inference on new images.
+
+---
+
+# Technologies Used
+
+The project is implemented in Python using the following libraries:
+
+| Technology   | Purpose                                     |
+| ------------ | ------------------------------------------- |
+| Python       | Core programming language                   |
+| TensorFlow   | Deep learning framework                     |
+| Keras        | Neural network/model construction           |
+| OpenCV       | Image and mask loading and resizing         |
+| NumPy        | Numerical operations and array manipulation |
+| Pandas       | Data manipulation                           |
+| Matplotlib   | Visualization                               |
+| Scikit-learn | Train-test splitting                        |
+
+---
+
+# Project Structure
+
+A clean version of the repository can be organized as:
+
+```text
+flood-area-segmentation/
+│
+├── dataset/
+│   ├── Image/
+│   │   ├── 0.jpg
+│   │   ├── 1.jpg
+│   │   └── ...
+│   │
+│   └── Mask/
+│       ├── 0.png
+│       ├── 1.png
+│       └── ...
+│
+├── notebooks/
+│   └── flood_segmentation.ipynb
+│
+├── models/
+│   └── flood_segmentation_model2.h5
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+### Directory Descriptions
+
+#### `dataset/`
+
+Contains the input images and corresponding ground-truth segmentation masks.
+
+#### `notebooks/`
+
+Contains the Jupyter Notebook implementing the complete segmentation workflow.
+
+#### `models/`
+
+Contains the trained Keras model.
+
+#### `requirements.txt`
+
+Contains the Python dependencies required to reproduce the project.
+
+#### `README.md`
+
+Project documentation.
+
+#### `.gitignore`
+
+Specifies files and directories that should not be committed to Git.
+
+---
+
+# Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/<your-username>/<your-repository>.git
+cd <your-repository>
+```
+
+Replace `<your-username>` and `<your-repository>` with your GitHub username and repository name.
+
+---
+
+## 2. Create a Virtual Environment
+
+### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### macOS/Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## 3. Install Dependencies
+
+Install the required Python packages:
+
+```bash
+pip install numpy pandas matplotlib opencv-python scikit-learn tensorflow
+```
+
+Alternatively, create a `requirements.txt` file containing:
+
+```text
+numpy
+pandas
+matplotlib
+opencv-python
+scikit-learn
+tensorflow
+```
+
+Then install:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Dataset Directory Configuration
+
+The original notebook uses a local Windows path similar to:
+
+```python
+IMAGE_DIR = r"C:\Users\jash1\OneDrive\Desktop\sem 7\dl_app\image_segmentation\archive (12)\Image"
+MASK_DIR = r"C:\Users\jash1\OneDrive\Desktop\sem 7\dl_app\image_segmentation\archive (12)\Mask"
+```
+
+This path will **not work on another computer**.
+
+For the GitHub version of the project, update these paths to match the location of your dataset.
+
+For example:
+
+```python
+IMAGE_DIR = "./dataset/Image"
+MASK_DIR = "./dataset/Mask"
+```
+
+If the dataset is not included in the repository, users should obtain the dataset separately and place it in the expected directory structure.
+
+---
+
+# Usage
+
+## Running the Notebook
+
+Launch Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+or:
+
+```bash
+jupyter lab
+```
+
+Open:
+
+```text
+notebooks/flood_segmentation.ipynb
+```
+
+Then execute the notebook cells sequentially.
+
+---
+
+## Training the Model
+
+The notebook performs the following operations:
+
+```text
+1. Import libraries
+2. Configure dataset paths
+3. Load image-mask pairs
+4. Resize images and masks
+5. Normalize pixel values
+6. Split data into training and testing sets
+7. Create U-Net
+8. Compile model
+9. Train for 25 epochs
+10. Generate test predictions
+11. Visualize predictions
+12. Save trained model
+```
+
+---
+
+# Using the Trained Model
+
+Once the model has been trained and saved, it can be loaded using:
+
+```python
+import tensorflow as tf
+
+model = tf.keras.models.load_model(
+    "flood_segmentation_model2.h5"
+)
+```
+
+For a new image, it should first be processed in the same way as the training data.
+
+Example preprocessing:
+
+```python
+import cv2
+import numpy as np
+
+IMAGE_SIZE = 256
+
+image = cv2.imread("path/to/image.jpg")
+
+image = cv2.resize(
+    image,
+    (IMAGE_SIZE, IMAGE_SIZE)
+)
+
+image = image / 255.0
+
+input_image = np.expand_dims(image, axis=0)
+
+prediction = model.predict(input_image)
+
+binary_mask = (
+    prediction[0] > 0.5
+).astype(np.uint8)
+```
+
+The resulting `binary_mask` represents the predicted segmentation.
+
+---
+
+# Important Notes
+
+## Image Format
+
+The notebook expects input images to use the `.jpg` extension:
+
+```python
+image_path = os.path.join(image_dir, file_name + ".jpg")
+```
+
+## Mask Format
+
+The notebook expects segmentation masks to use the `.png` extension:
+
+```python
+mask_path = os.path.join(mask_dir, file_name + ".png")
+```
+
+If your dataset uses different extensions, these lines need to be modified.
+
+## Matching Filenames
+
+Each image and its corresponding mask must have the same filename stem.
+
+For example:
+
+```text
+Image/2048.jpg
+Mask/2048.png
+```
+
+The extension can differ, but the filename itself must match.
+
+## Color Space
+
+Images are loaded using OpenCV's default image-loading behavior.
+
+The notebook does not explicitly convert the images from OpenCV's BGR representation to RGB before training.
+
+---
+
+# Key Implementation Details
+
+## Input Resolution
+
+```text
+256 × 256 × 3
+```
+
+## Output Resolution
+
+```text
+256 × 256 × 1
+```
+
+## Segmentation Type
+
+```text
+Binary Semantic Segmentation
+```
+
+## Hidden-Layer Activation
+
+```text
+ReLU
+```
+
+## Output Activation
+
+```text
+Sigmoid
+```
+
+## Loss Function
 
 ```text
 Binary Cross-Entropy
 ```
 
-The model also tracked accuracy during training.
-
-The training configuration used:
+## Optimizer
 
 ```text
-Epochs: 25
-Initial Batch Size: 1
+Adam
 ```
 
-The notebook also included a fallback to batch size 8 if a batch-size-related `ValueError` occurred during training.
-
----
-
-## Model Training
-
-The model was trained using the training image-mask pairs, with the test set supplied as validation data.
-
-The training process was configured for up to 25 epochs.
-
-Conceptually, the model learned the relationship:
+## Training Epochs
 
 ```text
-Flood Image → Flood Segmentation Mask
+25
 ```
 
-The objective was for the predicted mask to become increasingly similar to the corresponding target mask during training.
+## Batch Size
 
----
+```text
+1
+```
 
-## Prediction and Visualization
+## Train-Test Split
 
-After training, the notebook included a prediction function for visualizing model results.
+```text
+80% Training
+20% Testing
+```
 
-For a selected test image, the model generates a predicted segmentation mask.
-
-The predicted output is converted into a binary mask using a threshold of:
+## Prediction Threshold
 
 ```text
 0.5
 ```
 
-The notebook then displays three images side by side:
+---
 
-```text
-Original Image | True Mask | Predicted Mask
+# Limitations
+
+This implementation is a baseline U-Net segmentation project and has several limitations.
+
+### 1. Small Dataset
+
+Only 289 image-mask pairs were successfully loaded in the notebook, with 231 used for training and 58 used for testing.
+
+A larger and more diverse dataset would provide a stronger basis for evaluating generalization.
+
+### 2. No Data Augmentation
+
+The notebook does not implement augmentation techniques such as:
+
+* Rotation
+* Horizontal flipping
+* Vertical flipping
+* Random cropping
+* Zooming
+* Brightness adjustment
+* Contrast adjustment
+
+Adding augmentation could improve the model's ability to generalize to different flood scenes.
+
+### 3. Limited Evaluation Metrics
+
+The notebook evaluates the model using:
+
+* Binary cross-entropy loss
+* Pixel-level accuracy
+
+However, segmentation problems are commonly evaluated using additional metrics such as:
+
+* Intersection over Union (IoU)
+* Dice coefficient
+* Precision
+* Recall
+* F1 score
+
+These metrics are not implemented in the current notebook.
+
+### 4. Test Set Used as Validation Data
+
+The notebook uses:
+
+```python
+validation_data=(X_test, y_test)
 ```
 
-Predictions were generated for the first five test images.
+during model training.
 
-This provided a visual way to inspect how closely the model's predicted segmentation corresponded to the actual segmentation mask.
+Therefore, the test set is also used to monitor validation performance during training.
 
----
-
-## Model Saving and Loading
-
-The trained model was saved as an H5 file:
+For a more rigorous machine learning evaluation, the dataset should ideally be divided into:
 
 ```text
-flood_segmentation_model2.h5
+Training Set
+Validation Set
+Test Set
 ```
 
-The notebook also included functionality for loading a saved TensorFlow/Keras segmentation model from an H5 file.
+The test set should remain completely unseen until final evaluation.
 
-This allows the trained model to be reused without having to retrain the network from the beginning.
+### 5. No Early Stopping
 
----
+The model is trained for a fixed 25 epochs.
 
-## Technologies and Software
+No early stopping callback is used to automatically stop training when validation performance stops improving.
 
-### Programming Language
+### 6. No Model Checkpointing
 
-* Python
+The notebook saves the model after training but does not automatically save the best-performing epoch based on validation loss or another segmentation metric.
 
-### Deep Learning
+### 7. Fixed Image Size
 
-* TensorFlow
-* Keras
-* Convolutional Neural Networks
-* U-Net-style architecture
+All images are resized directly to `256 × 256`.
 
-### Image Processing
+This provides a consistent input size but may alter the original image aspect ratio and reduce some spatial detail.
 
-* OpenCV
+### 8. Hard-Coded Dataset Paths
 
-### Data Processing
+The original notebook contains a machine-specific Windows path.
 
-* NumPy
-* Pandas
-* Scikit-learn
+This must be changed before running the project on another computer.
 
-### Visualization
+### 9. No Deployment Interface
 
-* Matplotlib
-
-### Development Environment
-
-* Jupyter Notebook
-* Kaggle
-
-### Application Framework
-
-* Streamlit
+The notebook demonstrates training, visualization, saving, and loading the model, but does not currently provide a web or API interface for uploading an image and receiving a segmentation result.
 
 ---
 
-## Python Libraries Used
+# Future Improvements
 
-The notebook imports and uses the following libraries:
+The project can be extended in several ways.
 
-```text
-os
-cv2
-numpy
-matplotlib
-sklearn
-tensorflow
-pandas
-```
+## 1. Add Data Augmentation
 
-The TensorFlow/Keras implementation specifically uses:
+Introduce augmentation using TensorFlow/Keras or another image augmentation pipeline.
+
+Potential transformations include:
 
 ```text
-Conv2D
-MaxPooling2D
-UpSampling2D
-Concatenate
-Input
-Model
-Adam
+Horizontal Flip
+Vertical Flip
+Rotation
+Zoom
+Translation
+Brightness Adjustment
+Contrast Adjustment
 ```
 
 ---
 
-## My Contribution
+## 2. Add Dice Loss
 
-This was a five-member team project in which different members developed different machine-learning components that were intended to be integrated into a single Streamlit application.
+Flood segmentation can contain significant class imbalance between flooded and non-flooded pixels.
 
-My responsibility was the **flood area segmentation component**.
+Dice-based losses can be explored alongside binary cross-entropy.
 
-I worked on:
+A combined loss could also be investigated:
 
-* Understanding the image segmentation problem.
-* Preparing the flood-image dataset.
-* Matching images with their corresponding segmentation masks.
-* Loading images and masks using OpenCV.
-* Handling files that failed to load.
-* Resizing images and masks to 256 × 256 pixels.
-* Normalizing image and mask values.
-* Preparing the training and testing datasets.
-* Designing and implementing the U-Net-style architecture.
-* Implementing convolutional layers and max-pooling layers.
-* Implementing the bottleneck of the network.
-* Implementing upsampling and skip connections.
-* Compiling the model using Adam and binary cross-entropy.
-* Training the segmentation model.
-* Generating predictions on test images.
-* Visualizing original images, true masks and predicted masks.
-* Saving and loading the trained model.
+```text
+Combined Loss = Binary Cross-Entropy + Dice Loss
+```
 
 ---
 
-## Key Concepts Learned
+## 3. Add Segmentation Metrics
 
-### Image Classification vs Image Segmentation
+Future evaluation should include:
 
-One of the main concepts I learned through this project was the difference between classification and segmentation.
+```text
+IoU / Jaccard Index
+Dice Coefficient
+Precision
+Recall
+F1 Score
+```
 
-Classification attempts to assign a label to an entire image.
+This would provide a more informative evaluation of segmentation quality than pixel accuracy alone.
+
+---
+
+## 4. Create a Proper Validation Split
+
+Instead of using the test set as validation data, the dataset could be divided into:
+
+```text
+Training
+Validation
+Testing
+```
 
 For example:
 
 ```text
-Image → Flood
+70% Training
+15% Validation
+15% Testing
 ```
 
-Segmentation instead attempts to identify the relevant pixels within an image:
+The final test set should only be evaluated after model development is complete.
+
+---
+
+## 5. Use Model Checkpointing
+
+The best model can be saved automatically based on validation performance.
+
+For example:
+
+```python
+ModelCheckpoint(
+    "best_model.h5",
+    monitor="val_loss",
+    save_best_only=True
+)
+```
+
+---
+
+## 6. Experiment With Modern Segmentation Architectures
+
+The baseline U-Net can be compared against architectures such as:
 
 ```text
-Image → Pixel-Level Flood Mask
+U-Net++
+Attention U-Net
+DeepLabV3+
+FCN
+SegNet
+SegFormer
 ```
 
-This makes segmentation more appropriate when the location and extent of the affected region are important.
-
-### Working With Paired Image Data
-
-The project provided practical experience with datasets where each input image has a corresponding target mask.
-
-I learned that maintaining the correct relationship between the image and its mask is critical because the mask represents the expected output for that particular image.
-
-### Image Preprocessing
-
-I learned how image dimensions and pixel values need to be standardized before being supplied to a deep-learning model.
-
-This included:
-
-* Resizing images.
-* Resizing masks.
-* Normalizing pixel values.
-* Converting masks into grayscale.
-* Checking for invalid image files.
-
-### CNN-Based Feature Extraction
-
-The project provided practical exposure to how convolutional layers can extract increasingly complex visual features from images.
-
-I also learned how pooling operations reduce spatial dimensions while allowing the network to learn higher-level representations.
-
-### Encoder-Decoder Architecture
-
-The project helped me understand the basic idea behind encoder-decoder segmentation architectures.
-
-The encoder extracts features while progressively reducing spatial resolution, while the decoder reconstructs the segmentation output.
-
-### Skip Connections
-
-The use of concatenation between encoder and decoder feature maps helped me understand why segmentation architectures need to preserve spatial information.
-
-Features extracted at earlier stages can provide useful location information when reconstructing the final mask.
+Transfer learning using pretrained encoders could also be explored.
 
 ---
 
-## Challenges
+## 7. Improve Inference
 
-### 1. Correctly Matching Images and Masks
-
-The most important preprocessing challenge was ensuring that every image was paired with its correct segmentation mask.
-
-Since the model learns from image-mask pairs, incorrect matching would result in incorrect training targets.
-
-### 2. Handling Image Loading Errors
-
-The dataset contained at least one file that could not be loaded successfully.
-
-The preprocessing code therefore included checks for failed image and mask loading and excluded invalid pairs.
-
-### 3. Working With Segmentation Data
-
-Working with segmentation masks required different preprocessing considerations compared with ordinary tabular or classification datasets.
-
-Both the input image and target mask had to be resized consistently and prepared in a format suitable for the network.
-
-### 4. Understanding a More Complex Neural Network Architecture
-
-The U-Net-style architecture was more complex than a basic CNN classifier because it contained both downsampling and upsampling paths together with skip connections.
-
-Understanding how the feature maps move through these different stages was an important part of the project.
-
-### 5. Computational Requirements
-
-The architecture uses progressively larger numbers of convolutional filters, reaching 1024 filters in the bottleneck.
-
-Training such a network on image data requires considerably more computational resources than simpler machine-learning models.
-
----
-
-## Result
-
-The project produced a complete deep-learning pipeline for flood-image segmentation.
-
-The pipeline was able to:
-
-1. Load flood images and their corresponding masks.
-2. Prepare 289 usable image-mask pairs.
-3. Resize and normalize the data.
-4. Split the dataset into training and testing sets.
-5. Construct a U-Net-style CNN segmentation model.
-6. Train the model for up to 25 epochs.
-7. Generate segmentation predictions for test images.
-8. Visualize the original image, true mask and predicted mask.
-9. Save the trained model as an H5 file.
-10. Reload the trained model for subsequent use.
-
-The project gave me practical exposure to computer vision and showed me how deep-learning models can be used for pixel-level analysis rather than only assigning a single class to an image.
-
----
-
-## Project Files
-
-The project folder can contain the following structure:
+A dedicated inference script could allow users to provide an image and automatically generate:
 
 ```text
-06-flood-segmentation/
-│
-├── README.md
-│
-├── notebook/
-│   └── flood_segmentation.ipynb
-│
-├── model/
-│   └── flood_segmentation_model2.h5
-│
-├── screenshots/
-│   ├── original_vs_true_mask_vs_predicted_mask.png
-│   └── ...
-│
-└── requirements.txt
+Original Image
+Predicted Flood Mask
+Segmentation Overlay
+Flooded Area Visualization
 ```
-
-The original dataset is not included in this repository if its size or licensing makes redistribution impractical.
 
 ---
 
-## Limitations
+## 8. Build a Web Application
 
-The project was developed primarily as an academic learning project and has several limitations.
+The trained model could be integrated into an application using frameworks such as:
 
-* The dataset contained only 289 usable image-mask pairs.
-* The model was developed and tested on the available dataset rather than a large production-scale dataset.
-* The project focused primarily on developing the segmentation pipeline rather than extensive model optimization.
-* The notebook did not document extensive segmentation-specific evaluation metrics beyond the training accuracy.
-* The quality of predictions can vary depending on the type and quality of the input image.
-* The model may not generalize well to flood imagery that differs substantially from the training dataset.
-* The project was one component of a larger Streamlit application rather than a standalone production deployment.
+```text
+Streamlit
+FastAPI
+Flask
+```
+
+A possible workflow would be:
+
+```text
+Upload Flood Image
+       │
+       ▼
+Preprocess Image
+       │
+       ▼
+Load Trained U-Net
+       │
+       ▼
+Generate Mask
+       │
+       ▼
+Display Segmentation
+```
 
 ---
 
-## Future Improvements
+# Reproducibility
 
-Potential improvements to the project could include:
+To reproduce the experiment:
 
-* Increasing the size and diversity of the training dataset.
-* Applying data augmentation to improve generalization.
-* Experimenting with different U-Net architectures.
-* Using pretrained encoder architectures.
-* Experimenting with alternative loss functions such as Dice loss or focal loss.
-* Evaluating the model using segmentation-specific metrics such as IoU and Dice coefficient.
-* Performing more systematic hyperparameter tuning.
-* Improving the Streamlit interface for image upload and prediction.
-* Deploying the trained model as a standalone application or API.
-* Testing the model on flood imagery from different geographic regions and environmental conditions.
+1. Install the required dependencies.
+2. Obtain the image and mask dataset.
+3. Organize the dataset into `Image` and `Mask` directories.
+4. Ensure corresponding images and masks share the same filename.
+5. Update `IMAGE_DIR` and `MASK_DIR`.
+6. Set the image size to `256`.
+7. Run the notebook.
+8. Allow the dataset to be loaded and split.
+9. Train the U-Net for 25 epochs.
+10. Review the training metrics.
+11. Generate predictions on test images.
+12. Save the trained model.
+
+The notebook uses:
+
+```python
+random_state=42
+```
+
+for the train-test split to make the dataset partition reproducible.
 
 ---
 
-## Conclusion
+# Example Output
 
-This project provided practical experience in applying deep learning to a computer vision problem where the objective was not simply to classify an image but to identify a specific region within it.
+The notebook generates qualitative results consisting of:
 
-Through the project, I worked with paired image and mask data, implemented preprocessing pipelines, developed a U-Net-style segmentation architecture using TensorFlow/Keras, trained the model and visualized its predictions.
-
-The project also helped me understand that successful machine-learning applications depend not only on the model architecture but also on the quality and preparation of the underlying data.
-
+```text
+Original Image | Ground Truth Mask | Predicted Mask
 ```
+
+These visualizations allow direct comparison between the actual flood segmentation and the segmentation generated by the trained U-Net model.
+
+If you add screenshots of these results to the repository, they can be displayed here using:
+
+```markdown
+![Flood Segmentation Results](assets/results.png)
 ```
+
+---
+
+# What This Project Demonstrates
+
+This project demonstrates an end-to-end deep learning workflow for image segmentation:
+
+* Image dataset loading
+* Image-mask pairing
+* Image preprocessing
+* Image normalization
+* Train-test splitting
+* Custom CNN architecture design
+* U-Net encoder-decoder architecture
+* Skip connections
+* Binary semantic segmentation
+* Model training
+* Validation monitoring
+* Segmentation prediction
+* Prediction visualization
+* Model saving
+* Model loading for inference
+
+---
+
+# Conclusion
+
+This project implements a complete baseline pipeline for **flood area segmentation using a custom U-Net architecture**.
+
+The model learns from paired flood images and corresponding segmentation masks and produces a pixel-level prediction of flooded regions.
+
+Using 289 successfully loaded image-mask pairs, the implementation resizes the data to `256 × 256`, trains a U-Net for 25 epochs using Adam and binary cross-entropy, and generates binary segmentation masks for test images.
+
+The recorded training run achieved a maximum validation accuracy of **82.05% at epoch 23**. However, because the notebook does not calculate IoU, Dice, or other segmentation-specific metrics, the reported accuracy should be interpreted as pixel-level accuracy rather than a complete measure of segmentation quality.
+
+The project provides a foundation that can be extended through data augmentation, improved loss functions, stronger evaluation methods, pretrained architectures, and deployment through a web application or API.
+
+---
+
+# License
+
+This project is intended for educational and research purposes.
+
+If the dataset used in this project has a separate license or usage restrictions, those terms should be followed independently of this repository's code license.
+
+---
+
+# Author
+
+**Chirag Chaudhary**
+
+GitHub: `https://github.com/<your-username>`
+
+---
+
+# Acknowledgements
+
+This project was developed as a deep learning image segmentation project focused on identifying flooded areas from images using a U-Net architecture implemented with TensorFlow and Keras.
