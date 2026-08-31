@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "rule_id": "R001_LOW_CREDIT",
+      "priority": 1,
+      "decision": "reject",
+      "stop_on_match": true,
+      "reason": "Credit score below minimum threshold",
+      "conditions": [
+        {
+          "field": "credit_score",
+          "operator": "<",
+          "value": 600
+        }
+      ]
+    },
+    {
+      "rule_id": "R999_DEFAULT_ACCEPT",
+      "priority": 999,
+      "decision": "accept",
+      "stop_on_match": true,
+      "reason": "Default accept",
+      "conditions": []
+    }
+  ]
+}

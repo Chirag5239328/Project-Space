@@ -1,0 +1,8 @@
+metric,value
+total_records,100
+accept,25
+reject,60
+review,15
+accept_pct,25.0
+reject_pct,60.0
+review_pct,15.0

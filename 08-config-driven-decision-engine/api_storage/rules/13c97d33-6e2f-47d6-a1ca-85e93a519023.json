@@ -1,0 +1,81 @@
+{
+  "rules": [
+    {
+      "rule_id": "R1",
+      "priority": 1,
+      "decision": "reject",
+      "stop_on_match": true,
+      "reason": "Generated rule",
+      "conditions": [
+        {
+          "field": "credit_score",
+          "operator": "<",
+          "value": "600"
+        }
+      ]
+    },
+    {
+      "rule_id": "R2",
+      "priority": 2,
+      "decision": "reject",
+      "stop_on_match": true,
+      "reason": "Generated rule",
+      "conditions": [
+        {
+          "field": "country",
+          "operator": "!=",
+          "value": "IN"
+        },
+        {
+          "field": "kyc_verified",
+          "operator": "==",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "rule_id": "R3",
+      "priority": 3,
+      "decision": "review",
+      "stop_on_match": true,
+      "reason": "Generated rule",
+      "conditions": [
+        {
+          "field": "requested_amount",
+          "operator": "between",
+          "value": [
+            500000,
+            1000000
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "R4",
+      "priority": 4,
+      "decision": "reject",
+      "stop_on_match": true,
+      "reason": "Generated rule",
+      "conditions": [
+        {
+          "field": "employment_type",
+          "operator": "==",
+          "value": "unemployed"
+        },
+        {
+          "field": "annual_income",
+          "operator": "<",
+          "value": "200000"
+        }
+      ]
+    },
+    {
+      "rule_id": "R999_DEFAULT_ACCEPT",
+      "priority": 999,
+      "decision": "accept",
+      "stop_on_match": true,
+      "reason": "Default rule \u2013 no other rules matched",
+      "conditions": []
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+record_id,age,annual_income,credit_score,country,kyc_verified,requested_amount,employment_type,decision,rule_id,reason
+R00001,48,1408153,639,IN,FALSE,71885,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00002,74,1930127,766,SG,TRUE,991889,unemployed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00003,20,351742,650,UK,FALSE,1234457,unemployed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00004,20,1073804,892,IN,FALSE,438766,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00005,31,1867268,752,US,FALSE,1379795,unemployed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00006,63,501318,728,UK,FALSE,1159144,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00007,69,326644,561,US,FALSE,276069,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00008,65,1610765,416,UK,TRUE,666910,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00009,67,1440109,348,US,FALSE,1332257,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00010,45,638774,659,SG,TRUE,1125798,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00011,40,1097466,807,UK,FALSE,479861,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00012,44,197667,591,IN,FALSE,1362837,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00013,61,352962,457,US,FALSE,109763,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00014,24,1845910,892,UK,TRUE,1302860,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00015,55,1926821,852,SG,TRUE,548361,self_employed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00016,41,401575,495,US,TRUE,1048362,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00017,34,1259352,761,US,FALSE,493153,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00018,30,879724,872,UK,TRUE,284393,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00019,70,430684,868,SG,FALSE,58851,unemployed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00020,62,197843,888,UK,TRUE,1487251,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00021,32,231452,561,SG,FALSE,923197,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00022,49,1543367,570,DE,FALSE,450091,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00023,34,1759259,831,UK,TRUE,1092317,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00024,31,1004393,365,UK,FALSE,516533,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00025,63,133583,833,SG,TRUE,131944,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00026,48,297585,767,DE,FALSE,847593,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00027,66,782950,646,DE,TRUE,790162,unemployed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00028,42,650602,809,IN,FALSE,619865,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00029,41,1496027,560,UK,FALSE,1082212,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00030,60,1059710,703,UK,FALSE,379043,salaried,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00031,33,288099,807,SG,TRUE,297237,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00032,56,1220290,558,SG,FALSE,303229,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00033,61,1773113,361,SG,TRUE,131003,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00034,32,213116,621,IN,TRUE,1128798,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00035,50,1903912,490,DE,FALSE,146381,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00036,74,1754124,858,US,FALSE,622890,unemployed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00037,70,1237283,627,DE,TRUE,161856,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00038,73,1624766,452,UK,FALSE,1444293,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00039,19,812808,520,SG,FALSE,638616,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00040,54,314498,694,DE,TRUE,267804,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00041,39,788275,532,UK,FALSE,883893,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00042,46,1044745,482,UK,TRUE,511732,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00043,66,721824,650,IN,TRUE,851878,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00044,38,1291514,395,UK,FALSE,258011,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00045,33,1898161,782,US,FALSE,604668,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00046,47,948959,887,US,FALSE,81016,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00047,24,662770,754,DE,TRUE,1376659,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00048,62,1552761,559,UK,FALSE,80225,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00049,40,231238,878,UK,FALSE,142035,salaried,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00050,24,1870608,564,SG,TRUE,1174441,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00051,57,1021727,475,US,TRUE,691182,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00052,20,1684010,710,US,TRUE,1041561,salaried,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00053,30,1424323,555,SG,TRUE,923180,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00054,28,434669,588,US,FALSE,736717,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00055,52,1215480,877,SG,FALSE,439905,salaried,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00056,43,1825933,346,DE,FALSE,493577,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00057,61,1099445,624,DE,FALSE,620256,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00058,56,1156596,863,IN,FALSE,115806,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00059,44,1806634,375,US,TRUE,577967,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00060,70,1518639,353,IN,FALSE,556176,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00061,20,728581,841,US,TRUE,913141,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00062,31,1977345,843,US,TRUE,1040725,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00063,70,1387606,737,DE,TRUE,514109,self_employed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00064,31,680328,777,UK,TRUE,1242888,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00065,40,1025986,498,IN,FALSE,1376600,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00066,36,1750626,606,IN,FALSE,88671,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00067,33,857159,389,SG,TRUE,845092,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00068,19,491638,860,IN,FALSE,129940,self_employed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00069,60,1542685,490,US,FALSE,378400,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00070,60,1370996,534,DE,FALSE,1224708,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00071,56,1069180,613,DE,FALSE,66856,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00072,44,1675405,624,IN,TRUE,1310970,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00073,68,777072,526,UK,TRUE,337043,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00074,71,607823,614,IN,FALSE,512309,unemployed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00075,32,1114440,719,US,FALSE,1026284,salaried,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00076,51,214286,709,UK,TRUE,1220737,salaried,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00077,54,567167,779,SG,TRUE,912723,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00078,58,186287,868,UK,FALSE,848652,unemployed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00079,21,753860,529,US,FALSE,449429,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00080,61,638384,429,UK,FALSE,1193393,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00081,73,988970,463,SG,FALSE,720508,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00082,69,1840169,516,SG,TRUE,1325578,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00083,51,186109,312,SG,FALSE,192319,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00084,62,229169,382,IN,FALSE,1008706,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00085,67,1175370,769,SG,TRUE,142326,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00086,60,1899950,317,SG,TRUE,142537,self_employed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00087,39,450346,844,DE,FALSE,1284157,self_employed,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00088,31,1328536,767,UK,TRUE,712253,unemployed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00089,32,807306,738,IN,TRUE,985340,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00090,60,653529,726,US,TRUE,533195,self_employed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00091,25,845341,830,UK,FALSE,236305,salaried,reject,R002_KYC_COMPLIANCE,Non-IN applicant without KYC verification
+R00092,61,1349090,719,US,TRUE,725749,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00093,59,655319,817,DE,TRUE,798174,unemployed,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00094,40,1442371,436,US,FALSE,295949,unemployed,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00095,23,378711,304,UK,TRUE,1145425,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00096,75,1157616,855,SG,TRUE,267798,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00097,59,1310231,414,UK,FALSE,529197,salaried,reject,R001_LOW_CREDIT,Credit score below minimum threshold
+R00098,23,1848213,875,US,TRUE,1209243,salaried,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements
+R00099,47,1271607,716,US,TRUE,756987,salaried,review,R003_HIGH_AMOUNT_REVIEW,High requested amount requires manual review
+R00100,54,1301089,823,IN,TRUE,1423959,unemployed,accept,R999_DEFAULT_ACCEPT,Meets all policy requirements

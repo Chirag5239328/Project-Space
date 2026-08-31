@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "rule_id": "R1",
+      "priority": 1,
+      "decision": "reject",
+      "stop_on_match": true,
+      "reason": "Generated rule",
+      "conditions": [
+        {
+          "field": "credit_score",
+          "operator": "<",
+          "value": 500
+        }
+      ]
+    },
+    {
+      "rule_id": "R999_DEFAULT_ACCEPT",
+      "priority": 999,
+      "decision": "accept",
+      "stop_on_match": true,
+      "reason": "Default rule \u2013 no other rules matched",
+      "conditions": []
+    }
+  ]
+}

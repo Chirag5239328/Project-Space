@@ -1,0 +1,58 @@
+rules:
+  - rule_id: R001_LOW_CREDIT
+    priority: 1
+    decision: reject
+    stop_on_match: true
+    reason: "Credit score below minimum threshold"
+    conditions:
+      all:
+        - field: credit_score
+          operator: "<"
+          value: 600
+
+  - rule_id: R002_KYC_COMPLIANCE
+    priority: 2
+    decision: reject
+    stop_on_match: true
+    reason: "Non-IN applicant without KYC verification"
+    conditions:
+      all:
+        - field: country
+          operator: "!="
+          value: "IN"
+        - field: kyc_verified
+          operator: "=="
+          value: false
+
+  - rule_id: R003_HIGH_AMOUNT_REVIEW
+    priority: 3
+    decision: review
+    stop_on_match: true
+    reason: "High requested amount requires manual review"
+    conditions:
+      all:
+        - field: requested_amount
+          operator: "between"
+          value: [500000, 1000000]
+
+  - rule_id: R004_UNEMPLOYED_LOW_INCOME
+    priority: 4
+    decision: reject
+    stop_on_match: true
+    reason: "Unemployed applicant with low income"
+    conditions:
+      all:
+        - field: employment_type
+          operator: "=="
+          value: "unemployed"
+        - field: annual_income
+          operator: "<"
+          value: 200000
+
+  - rule_id: R999_DEFAULT_ACCEPT
+    priority: 999
+    decision: accept
+    stop_on_match: true
+    reason: "Meets all policy requirements"
+    conditions:
+      all: []
