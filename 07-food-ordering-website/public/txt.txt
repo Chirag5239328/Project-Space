@@ -1,0 +1,302 @@
+restaurant_list = [
+    Restaurant(id=1, name='Bella Italia', rating=4.3, image_url='https://example.com/restaurant1-image.jpg', cuisine='Italian'),
+    Restaurant(id=2, name='Tortilla Street', rating=3.9, image_url='https://example.com/restaurant2-image.jpg', cuisine='Mexican'),
+    Restaurant(id=3, name='Indian Masala House', rating=4.5, image_url='https://example.com/restaurant3-image.jpg', cuisine='Indian'),
+    Restaurant(id=4, name='Sushi Haven', rating=4.2, image_url='https://example.com/restaurant4-image.jpg', cuisine='Japanese'),
+    Restaurant(id=5, name='Burger Junction', rating=3.8, image_url='https://example.com/restaurant5-image.jpg', cuisine='American'),
+    Restaurant(id=6, name='Chai Chai Cafe', rating=4.0, image_url='https://example.com/restaurant6-image.jpg', cuisine='Indian'),
+]
+
+user_past_order_list = [
+    UserPastOrder(
+        user=user_list[0],restaurant_id=1,
+        restaurant_name='Bella Italia',
+        order_date='2023-10-20 18:30:00',
+        status='Delivered',
+        total_price=899.50
+    ),
+    UserPastOrder(
+        user=user_list[0],
+        restaurant_id=2,
+        restaurant_name='Tortilla Street',
+        order_date='2023-10-18 19:15:00',
+        status='Delivered',
+        total_price=675.75
+    ),
+    UserPastOrder(
+        user=user_list[0],
+        restaurant_id=3,
+        restaurant_name='Indian Masala House',
+        order_date='2023-10-21 20:00:00',
+        status='Delivered',
+        total_price=1099.99
+    ),
+    UserPastOrder(
+        user=user_list[1],
+        restaurant_id=4,
+        restaurant_name='Sushi Haven',
+        order_date='2023-10-19 18:45:00',
+        status='Delivered',
+        total_price=1325.00
+    ),
+    UserPastOrder(
+        user=user_list[1],
+        restaurant_id=5,
+        restaurant_name='Burger Junction',
+        order_date='2023-10-22 19:30:00',
+        status='Delivered',
+        total_price=765.25
+    ),
+    UserPastOrder(
+        user=user_list[2],
+        restaurant_id=6,
+        restaurant_name='Chai Chai Cafe',
+        order_date='2023-10-17 20:15:00',
+        status='Delivered',
+        total_price=430.00
+    ),
+    UserPastOrder(
+        user=user_list[0],
+        restaurant_id=1,
+        restaurant_name='Bella Italia',
+        order_date='2023-10-23 18:30:00',
+        status='Delivered',
+        total_price=1550.25
+    ),
+    UserPastOrder(
+        user=user_list[1],
+        restaurant_id=2,
+        restaurant_name='Tortilla Street',
+        order_date='2023-10-24 19:15:00',
+        status='Delivered',
+        total_price=950.50
+    ),
+    UserPastOrder(
+        user=user_list[2],
+        restaurant_id=3,
+        restaurant_name='Indian Masala House',
+        order_date='2023-10-25 20:00:00',
+        status='Delivered',
+        total_price=375.25
+    ),
+    UserPastOrder(
+        user=user_list[3],
+        restaurant_id=4,
+        restaurant_name='Sushi Haven',
+        order_date='2023-10-26 18:45:00',
+        status='Delivered',
+        total_price=1325.99
+    ),
+    # ######
+]
+
+
+
+# Create a list of Category objects
+category_list = [
+    Category(restaurant=restaurant_list[0], category_name='Pasta'),
+    Category(restaurant=restaurant_list[0], category_name='Salad'),
+    Category(restaurant=restaurant_list[0], category_name='Pizza'),
+    Category(restaurant=restaurant_list[0], category_name='Desserts'),
+    # Add more Category entries for other restaurants as needed
+]
+
+# Create a list of RestaurantMenu objects
+restaurant_menu_list = [
+    # Restaurant: Bella Italia
+    # Category: Pasta
+    RestaurantMenu(category=category_list[0], name='Spaghetti Bolognese', description='Classic spaghetti with Bolognese sauce', price=8.99, image_url='item-image-url-1', rating=4.3),
+    RestaurantMenu(category=category_list[0], name='Fettuccine Alfredo', description='Creamy Fettuccine Alfredo with Parmesan', price=11.99, image_url='item-image-url-2', rating=4.6),
+    RestaurantMenu(category=category_list[0], name='Lasagna', description='Layers of pasta, meat, and cheese in rich sauce', price=10.99, image_url='item-image-url-3', rating=4.4),
+    
+    # Category: Salad
+    RestaurantMenu(category=category_list[1], name='Caesar Salad', description='Crisp Romaine lettuce with Caesar dressing', price=6.99, image_url='item-image-url-4', rating=4.2),
+    RestaurantMenu(category=category_list[1], name='Caprese Salad', description='Fresh tomatoes, mozzarella, and basil', price=7.99, image_url='item-image-url-5', rating=4.4),
+    RestaurantMenu(category=category_list[1], name='Spinach Salad', description='Spinach leaves with balsamic vinaigrette', price=6.49, image_url='item-image-url-6', rating=4.1),
+    
+    # Category: Pizza
+    RestaurantMenu(category=category_list[2], name='Margherita Pizza', description='Classic pizza with tomato and mozzarella', price=9.99, image_url='item-image-url-7', rating=4.5),
+    RestaurantMenu(category=category_list[2], name='Pepperoni Pizza', description='Pizza with pepperoni and mozzarella', price=10.99, image_url='item-image-url-8', rating=4.4),
+    RestaurantMenu(category=category_list[2], name='Quattro Formaggi', description='Four cheese pizza with Gorgonzola', price=11.49, image_url='item-image-url-9', rating=4.3),
+    
+    # Category: Desserts
+    RestaurantMenu(category=category_list[3], name='Tiramisu', description='Classic Italian dessert with coffee and mascarpone', price=5.99, image_url='item-image-url-10', rating=4.6),
+    RestaurantMenu(category=category_list[3], name='Cannoli', description='Crisp pastry tubes filled with sweet cream', price=4.99, image_url='item-image-url-11', rating=4.3),
+    RestaurantMenu(category=category_list[3], name='Panna Cotta', description='Creamy Italian dessert with caramel sauce', price=5.49, image_url='item-image-url-12', rating=4.5),
+    
+    # Add more RestaurantMenu entries for other categories and restaurants as needed
+]
+
+# Create a list of Category objects for Tortilla Street
+category_list += [
+    Category(restaurant=restaurant_list[1], category_name='Tacos'),
+    Category(restaurant=restaurant_list[1], category_name='Burritos'),
+    Category(restaurant=restaurant_list[1], category_name='Quesadillas'),
+    Category(restaurant=restaurant_list[1], category_name='Desserts'),
+]
+
+# Create a list of RestaurantMenu objects for Tortilla Street
+restaurant_menu_list += [
+    # Restaurant: Tortilla Street
+    # Category: Tacos
+    RestaurantMenu(category=category_list[4], name='Beef Tacos', description='Soft tortillas with seasoned beef and toppings', price=7.99, image_url='item-image-url-13', rating=4.2),
+    RestaurantMenu(category=category_list[4], name='Chicken Tacos', description='Tortillas with grilled chicken and flavorful sauces', price=8.99, image_url='item-image-url-14', rating=4.4),
+    RestaurantMenu(category=category_list[4], name='Vegetarian Tacos', description='Tortillas filled with a variety of grilled veggies', price=6.99, image_url='item-image-url-15', rating=4.1),
+
+    # Category: Burritos
+    RestaurantMenu(category=category_list[5], name='Classic Burrito', description='Large tortilla filled with your choice of ingredients', price=9.99, image_url='item-image-url-16', rating=4.5),
+    RestaurantMenu(category=category_list[5], name='Spicy Burrito', description='Burrito with a spicy kick and flavorful fillings', price=10.49, image_url='item-image-url-17', rating=4.3),
+    RestaurantMenu(category=category_list[5], name='Veggie Burrito', description='Vegetarian burrito loaded with garden-fresh ingredients', price=11.99, image_url='item-image-url-18', rating=4.3),
+
+    # Category: Quesadillas
+    RestaurantMenu(category=category_list[6], name='Cheese Quesadilla', description='Melted cheese sandwiched between tortillas', price=5.99, image_url='item-image-url-19', rating=4.5),
+    RestaurantMenu(category=category_list[6], name='Chicken Quesadilla', description='Quesadilla with grilled chicken and dipping sauce', price=6.49, image_url='item-image-url-20', rating=4.2),
+    RestaurantMenu(category=category_list[6], name='Veggie Quesadilla', description='Quesadilla with assorted grilled vegetables', price=6.99, image_url='item-image-url-21', rating=4.1),
+
+    # Category: Desserts
+    RestaurantMenu(category=category_list[7], name='Churros', description='Crispy fried dough pastry with cinnamon sugar', price=4.99, image_url='item-image-url-22', rating=4.5),
+    RestaurantMenu(category=category_list[7], name='Tres Leches Cake', description='Sponge cake soaked in three types of milk', price=5.49, image_url='item-image-url-23', rating=4.6),
+    RestaurantMenu(category=category_list[7], name='Flan', description='Creamy caramel custard dessert', price=5.99, image_url='item-image-url-24', rating=4.3),
+
+    # Add more RestaurantMenu entries for other categories as needed
+]
+
+
+# Create a list of Category objects for Indian Masala House
+category_list += [
+    Category(restaurant=restaurant_list[2], category_name='Curries'),
+    Category(restaurant=restaurant_list[2], category_name='Biryani'),
+    Category(restaurant=restaurant_list[2], category_name='Tandoori'),
+    Category(restaurant=restaurant_list[2], category_name='Desserts'),
+]
+
+# Create a list of RestaurantMenu objects for Indian Masala House
+restaurant_menu_list += [
+    # Restaurant: Indian Masala House
+    # Category: Curries
+    RestaurantMenu(category=category_list[8], name='Butter Chicken', description='Tender chicken in a rich and creamy tomato sauce', price=12.99, image_url='item-image-url-25', rating=4.3),
+    RestaurantMenu(category=category_list[8], name='Paneer Tikka Masala', description='Paneer in a flavorful tomato-based gravy', price=11.99, image_url='item-image-url-26', rating=4.2),
+    RestaurantMenu(category=category_list[8], name='Lamb Rogan Josh', description='Lamb curry with aromatic spices and herbs', price=13.49, image_url='item-image-url-27', rating=4.4),
+
+    # Category: Biryani
+    RestaurantMenu(category=category_list[9], name='Chicken Biryani', description='Fragrant rice with chicken and aromatic spices', price=10.99, image_url='item-image-url-28', rating=4.5),
+    RestaurantMenu(category=category_list[9], name='Veg Biryani', description='Vegetarian biryani with a mix of garden-fresh ingredients', price=9.99, image_url='item-image-url-29', rating=4.6),
+    RestaurantMenu(category=category_list[9], name='Mutton Biryani', description='Mutton biryani with succulent meat and spices', price=11.49, image_url='item-image-url-30', rating=4.3),
+
+    # Category: Tandoori
+    RestaurantMenu(category=category_list[10], name='Chicken Tikka', description='Grilled chicken marinated in spices and yogurt', price=8.99, image_url='item-image-url-31', rating=4.4),
+    RestaurantMenu(category=category_list[10], name='Seekh Kebab', description='Minced meat kebabs with aromatic spices', price=7.99, image_url='item-image-url-32', rating=4.3),
+    RestaurantMenu(category=category_list[10], name='Tandoori Mixed Grill', description='Assorted tandoori specialties with flavors from the grill', price=14.99, image_url='item-image-url-33', rating=4.5),
+
+    # Category: Desserts
+    RestaurantMenu(category=category_list[11], name='Gulab Jamun', description='Deep-fried dough balls in sugar syrup', price=5.49, image_url='item-image-url-34', rating=4.6),
+    RestaurantMenu(category=category_list[11], name='Rasgulla', description='Spongy dessert in sugar syrup', price=4.99, image_url='item-image-url-35', rating=4.2),
+    RestaurantMenu(category=category_list[11], name='Kheer', description='Creamy rice pudding with cardamom and nuts', price=5.99, image_url='item-image-url-36', rating=4.3),
+
+    # Add more RestaurantMenu entries for other categories as needed
+]
+
+
+
+# Create a list of Category objects for Sushi Haven
+category_list += [
+    Category(restaurant=restaurant_list[3], category_name='Sashimi'),
+    Category(restaurant=restaurant_list[3], category_name='Sushi Rolls'),
+    Category(restaurant=restaurant_list[3], category_name='Nigiri'),
+    Category(restaurant=restaurant_list[3], category_name='Desserts'),
+]
+
+# Create a list of RestaurantMenu objects for Sushi Haven
+restaurant_menu_list += [
+    # Restaurant: Sushi Haven
+    # Category: Sashimi
+    RestaurantMenu(category=category_list[12], name='Assorted Sashimi', description='Variety of fresh raw fish slices', price=15.99, image_url='item-image-url-37', rating=4.5),
+    RestaurantMenu(category=category_list[12], name='Salmon Sashimi', description='Slices of fresh salmon sashimi', price=14.99, image_url='item-image-url-38', rating=4.4),
+    RestaurantMenu(category=category_list[12], name='Tuna Sashimi', description='Slices of fresh tuna sashimi', price=13.99, image_url='item-image-url-39', rating=4.6),
+
+    # Category: Sushi Rolls
+    RestaurantMenu(category=category_list[13], name='California Roll', description='Avocado, crab, and cucumber roll', price=9.99, image_url='item-image-url-40', rating=4.2),
+    RestaurantMenu(category=category_list[13], name='Spicy Tuna Roll', description='Tuna, spicy mayo, and cucumber roll', price=10.49, image_url='item-image-url-41', rating=4.3),
+    RestaurantMenu(category=category_list[13], name='Dragon Roll', description='Eel, avocado, and cucumber roll topped with avocado', price=11.99, image_url='item-image-url-42', rating=4.5),
+
+    # Category: Nigiri
+    RestaurantMenu(category=category_list[14], name='Salmon Nigiri', description='Slices of salmon on beds of rice', price=7.99, image_url='item-image-url-43', rating=4.4),
+    RestaurantMenu(category=category_list[14], name='Tuna Nigiri', description='Slices of tuna on beds of rice', price=8.49, image_url='item-image-url-44', rating=4.3),
+    RestaurantMenu(category=category_list[14], name='Ebi Nigiri', description='Cooked shrimp on beds of rice', price=6.99, image_url='item-image-url-45', rating=4.2),
+
+    # Category: Desserts
+    RestaurantMenu(category=category_list[15], name='Green Tea Ice Cream', description='Smooth green tea-flavored ice cream', price=5.49, image_url='item-image-url-46', rating=4.6),
+    RestaurantMenu(category=category_list[15], name='Mochi Ice Cream', description='Chewy rice cake with ice cream filling', price=4.99, image_url='item-image-url-47', rating=4.3),
+    RestaurantMenu(category=category_list[15], name='Red Bean Taiyaki', description='Fish-shaped pastry filled with sweet red bean paste', price=6.49, image_url='item-image-url-48', rating=4.5),
+
+    # Add more RestaurantMenu entries for other categories as needed
+]
+
+# Create a list of Category objects for Burger Junction
+category_list += [
+    Category(restaurant=restaurant_list[4], category_name='Burgers'),
+    Category(restaurant=restaurant_list[4], category_name='Chicken Tenders'),
+    Category(restaurant=restaurant_list[4], category_name='Milkshakes'),
+    Category(restaurant=restaurant_list[4], category_name='Sides'),
+]
+
+# Create a list of RestaurantMenu objects for Burger Junction
+restaurant_menu_list += [
+    # Restaurant: Burger Junction
+    # Category: Burgers
+    RestaurantMenu(category=category_list[16], name='Classic Cheeseburger', description='Juicy beef patty with cheese and toppings', price=11.99, image_url='item-image-url-49', rating=4.5),
+    RestaurantMenu(category=category_list[16], name='Spicy Chicken Burger', description='Crispy chicken patty with spicy sauce', price=10.99, image_url='item-image-url-50', rating=4.4),
+    RestaurantMenu(category=category_list[16], name='Veggie Burger', description='Vegetarian patty with fresh veggies', price=9.99, image_url='item-image-url-51', rating=4.3),
+
+    # Category: Chicken Tenders
+    RestaurantMenu(category=category_list[17], name='Chicken Tenders', description='Crispy chicken tenders with dipping sauce', price=8.99, image_url='item-image-url-52', rating=4.2),
+    RestaurantMenu(category=category_list[17], name='BBQ Chicken Strips', description='Chicken strips with barbecue sauce', price=7.99, image_url='item-image-url-53', rating=4.1),
+    RestaurantMenu(category=category_list[17], name='Honey Mustard Tenders', description='Chicken tenders with honey mustard', price=8.49, image_url='item-image-url-54', rating=4.3),
+
+    # Category: Milkshakes
+    RestaurantMenu(category=category_list[18], name='Chocolate Milkshake', description='Creamy chocolate-flavored milkshake', price=4.99, image_url='item-image-url-55', rating=4.5),
+    RestaurantMenu(category=category_list[18], name='Vanilla Milkshake', description='Classic vanilla-flavored milkshake', price=4.99, image_url='item-image-url-56', rating=4.4),
+    RestaurantMenu(category=category_list[18], name='Strawberry Milkshake', description='Refreshing strawberry-flavored milkshake', price=5.49, image_url='item-image-url-57', rating=4.6),
+
+    # Category: Sides
+    RestaurantMenu(category=category_list[19], name='French Fries', description='Crispy golden french fries', price=3.99, image_url='item-image-url-58', rating=4.5),
+    RestaurantMenu(category=category_list[19], name='Onion Rings', description='Deep-fried battered onion rings', price=4.49, image_url='item-image-url-59', rating=4.4),
+    RestaurantMenu(category=category_list[19], name='Cheese Fries', description='French fries with melted cheese', price=4.99, image_url='item-image-url-60', rating=4.3),
+
+    # Add more RestaurantMenu entries for other categories as needed
+]
+
+
+# Create a list of Category objects for Chai Chai Cafe
+category_list += [
+    Category(restaurant=restaurant_list[5], category_name='Chai'),
+    Category(restaurant=restaurant_list[5], category_name='Samosas'),
+    Category(restaurant=restaurant_list[5], category_name='Rasgulla'),
+    Category(restaurant=restaurant_list[5], category_name='Beverages'),
+]
+
+# Create a list of RestaurantMenu objects for Chai Chai Cafe
+restaurant_menu_list += [
+    # Restaurant: Chai Chai Cafe
+    # Category: Chai
+    RestaurantMenu(category=category_list[20], name='Masala Chai', description='Traditional spiced tea with herbs and spices', price=3.99, image_url='item-image-url-61', rating=4.2),
+    RestaurantMenu(category=category_list[20], name='Ginger Chai', description='Chai with a zesty ginger twist', price=4.49, image_url='item-image-url-62', rating=4.1),
+    RestaurantMenu(category=category_list[20], name='Cardamom Chai', description='Chai infused with aromatic cardamom', price=4.99, image_url='item-image-url-63', rating=4.3),
+
+    # Category: Samosas
+    RestaurantMenu(category=category_list[21], name='Classic Samosa', description='Deep-fried pastry with spicy potato filling', price=2.99, image_url='item-image-url-64', rating=4.5),
+    RestaurantMenu(category=category_list[21], name='Vegetable Samosa', description='Samosa filled with mixed vegetables', price=3.49, image_url='item-image-url-65', rating=4.4),
+    RestaurantMenu(category=category_list[21], name='Paneer Samosa', description='Samosa filled with rich paneer cheese', price=3.99, image_url='item-image-url-66', rating=4.6),
+
+    # Category: Rasgulla
+    RestaurantMenu(category=category_list[22], name='Classic Rasgulla', description='Spongy dessert in sugar syrup', price=2.99, image_url='item-image-url-67', rating=4.5),
+    RestaurantMenu(category=category_list[22], name='Kesar Rasgulla', description='Rasgulla with saffron-infused syrup', price=3.49, image_url='item-image-url-68', rating=4.4),
+    RestaurantMenu(category=category_list[22], name='Coconut Rasgulla', description='Rasgulla coated with desiccated coconut', price=3.99, image_url='item-image-url-69', rating=4.3),
+
+    # Category: Beverages
+    RestaurantMenu(category=category_list[23], name='Mango Lassi', description='Refreshing yogurt-based drink with mango', price=4.99, image_url='item-image-url-70', rating=4.7),
+    RestaurantMenu(category=category_list[23], name='Rose Chai Latte', description='Chai latte with a hint of rose flavor', price=4.49, image_url='item-image-url-71', rating=4.6),
+    RestaurantMenu(category=category_list[23], name='Cold Coffee', description='Iced coffee with a creamy texture', price=3.99, image_url='item-image-url-72', rating=4.4),
+
+    # Add more RestaurantMenu entries for other categories as needed
+]
