@@ -46,8 +46,8 @@ This repository is therefore not intended to represent a single specialization. 
 | 01 | [Audio Transcription & Translation Application](./01-capstone-audio-transcription-translation/) | Individual Capstone | NLP, Speech Processing, Cloud |
 | 02 | [Financial Risk Assessment & Risk Rating Prediction](./02-financial-risk-assessment/) | Individual | Financial Analytics, Machine Learning |
 | 03 | [Sentiment Analysis & Policy Opinion Analysis](./03-sentiment-policy-analysis/) | Individual | NLP, Data Analysis |
-| 04 | [Business Analysis Dashboard](./04-powerbi-business-analysis/) | Self-Initiated | Power BI, DAX, Business Analytics |
-| 05 | [HR Analysis Dashboard](./05-powerbi-hr-analysis/) | Self-Initiated | Power BI, DAX, HR Analytics |
+| 04 | [SQL Analysis](./04-SQL-analysis/) | Self-Initiated | SQL, Covid-19 |
+| 05 | [Power BI Dashboard Analysis](./05-powerbi-dashboard-analysis/) | Self-Initiated | Power BI, DAX, HR Analytics, business Analytics |
 | 06 | [Flood Area Segmentation Using Deep Learning](./06-flood-segmentation/) | Team Project | Computer Vision, CNN, Deep Learning |
 | 07 | [Kwick Kravings](./07-kwick-kravings/) | Academic Team Project | Django, React, Web Development |
 | 08 | [Config-Driven Decision Engine](./08-config-driven-decision-engine/) | Independent / Post-Graduation | Rule Engines, SaaS Concepts, Backend Systems |
