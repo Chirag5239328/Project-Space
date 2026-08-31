@@ -228,19 +228,220 @@ I also learned the difference between polarity and subjectivity and gained expos
 
 ---
 
-# 04. Business Analysis Dashboard
+# 04. COVID-19 Data Analysis
 
 **Type:** Self-Initiated Project  
-**Area:** Business Intelligence, Data Visualization  
+**Area:** SQL, Data Analysis  
+**Technologies:** SQL
+
+## Overview
+
+This project was created as a self-initiated data analysis exercise focused on COVID-19 data.
+
+I selected this project because I wanted to add an SQL-based project to my portfolio and gain practical experience in using SQL to analyse a real-world dataset.
+
+The project involved working with COVID-19-related data and using SQL queries to explore the data, perform calculations and derive analytical insights.
+
+## Objective
+
+The main objective was to use SQL to analyse COVID-19 data and understand how structured data could be transformed into meaningful information through SQL queries.
+
+The project provided practical exposure to working with a real-world dataset and applying SQL concepts to data analysis.
+
+## What I Did
+
+The project involved using SQL to:
+
+- Explore COVID-19 data
+- Filter records based on specific conditions
+- Group records for analysis
+- Perform aggregations
+- Compare values across different records and categories
+- Work with date-related information
+- Calculate analytical measures
+- Extract insights from structured COVID-19 data
+
+## Key Learning
+
+The project helped me gain practical exposure to SQL-based data analysis.
+
+I learned how SQL can be used to move from raw structured data to analytical information by combining filtering, grouping, aggregation and calculations.
+
+The project also reinforced the importance of first defining the analytical question and then determining the appropriate SQL operations required to answer it.
+
+---
+
+# 05. Power BI Dashboard Analysis
+
+**Type:** Self-Initiated Projects  
+**Timeline:** Third Year of College  
+**Area:** Business Intelligence, Data Visualization, Business Analytics  
 **Technologies:** Power BI, DAX
+
+## Overview
+
+This project combines two self-initiated Power BI dashboard projects that I created during my third year of college.
+
+I created these dashboards because I wanted to explore Power BI beyond what was covered in my coursework and understand how it could be used to analyse real-world datasets, derive insights and communicate those insights through interactive visualizations.
+
+The two dashboards were:
+
+1. **HR Analysis Dashboard**
+2. **Business Analysis Dashboard**
+
+Both datasets were obtained from Kaggle.
+
+The HR dashboard was the first dashboard I created. After gaining familiarity with Power BI through the HR project, I went deeper into DAX and Power BI functionality while developing the Superstore Business Analysis Dashboard.
+
+The experience later proved particularly useful during my FedEx internship, where I worked on Power BI dashboards in a professional environment and was able to use features such as bookmarks and advanced navigation more seamlessly.
+
+---
+
+## 05A. HR Analysis Dashboard
+
+**Dashboard Title:** HR Analysis Dashboard  
+**Dataset Source:** Kaggle
 
 ### Overview
 
-I created this project independently to explore Power BI and understand how it could be used to convert raw business data into interactive analysis.
+The HR Analysis Dashboard was the first of the two Power BI dashboards I created.
 
-The project used the publicly available Superstore dataset from Kaggle.
+The project used an HR dataset containing employee-related information across areas such as demographics, employment, compensation, job satisfaction, performance, attrition and experience.
 
-The dashboard contains three pages and analyses areas including:
+### Dataset
+
+The dataset contained the following fields:
+
+- EmpID
+- Age
+- AgeGroup
+- Attrition
+- BusinessTravel
+- DailyRate
+- Department
+- DistanceFromHome
+- Education
+- EducationField
+- EmployeeCount
+- EmployeeNumber
+- EnvironmentSatisfaction
+- Gender
+- HourlyRate
+- JobInvolvement
+- JobLevel
+- JobRole
+- JobSatisfaction
+- MaritalStatus
+- MonthlyIncome
+- SalarySlab
+- MonthlyRate
+- NumCompaniesWorked
+- Over18
+- OverTime
+- PercentSalaryHike
+- PerformanceRating
+- RelationshipSatisfaction
+- StandardHours
+- StockOptionLevel
+- TotalWorkingYears
+- TrainingTimesLastYear
+- WorkLifeBalance
+- YearsAtCompany
+- YearsInCurrentRole
+- YearsSinceLastPromotion
+- YearsWithCurrManager
+
+### Objective
+
+The objective was to explore employee data and understand how Power BI could be used to transform a relatively large set of HR variables into an interactive business analysis dashboard.
+
+The project was also intended to help me explore Power BI independently because my college coursework generally focused on learning technologies in the context of a subject rather than developing deep expertise in a particular software or language.
+
+### What I Did
+
+I:
+
+- Imported and explored the HR dataset in Power BI
+- Worked with employee-related dimensions and measures
+- Created calculated columns using DAX
+- Created measures using DAX
+- Designed interactive visualizations
+- Built the HR Analysis Dashboard
+- Analysed employee-related patterns
+- Used the dashboard to derive business-oriented insights
+
+### Key Learning
+
+This was my first deeper exploration of Power BI.
+
+It helped me understand how raw data can be transformed into an interactive analytical interface.
+
+I gained an initial understanding of:
+
+- Power BI data preparation
+- Dashboard design
+- Data visualization
+- DAX calculated columns
+- DAX measures
+- Business-oriented analysis
+
+The project also gave me the foundation to explore DAX and more advanced Power BI functionality in the second dashboard.
+
+---
+
+## 05B. Business Analysis Dashboard
+
+**Dashboard Title:** Business Analysis Dashboard  
+**Dataset:** Superstore Dataset  
+**Dataset Source:** Kaggle  
+**Number of Pages:** 3
+
+### Overview
+
+After completing the HR dashboard, I wanted to explore Power BI in greater depth.
+
+For the second project, I selected the Superstore dataset from Kaggle because it provided a broader business context and allowed me to explore sales, customers, products, profitability and regional performance.
+
+This became a more extensive exploration of Power BI and DAX than the HR dashboard.
+
+### Dataset
+
+The Superstore dataset contained fields including:
+
+- Row ID
+- Order ID
+- Order Date
+- Ship Date
+- Ship Mode
+- Customer ID
+- Customer Name
+- Segment
+- Country
+- City
+- State
+- Region
+- Product ID
+- Category
+- Sub-Category
+- Product Name
+- Sales
+- Quantity
+- Profit
+- Returns
+- Payment Mode
+- Additional analytical fields
+
+### Objective
+
+The objective was to explore how Power BI could be used to analyse business data from multiple perspectives and convert the analysis into an interactive dashboard.
+
+I also wanted to go deeper into DAX after my initial experience with the HR dashboard.
+
+### Dashboard Structure
+
+The Business Analysis Dashboard consists of three pages.
+
+The dashboard analyses areas including:
 
 - Sales
 - Profit
@@ -251,67 +452,49 @@ The dashboard contains three pages and analyses areas including:
 - Sub-categories
 - Returns
 - Payment modes
+- Other business dimensions
 
 ### What I Did
 
-I explored:
+I worked on:
 
 - Data preparation
 - Data modelling
-- DAX
-- Measures
-- Calculated columns
+- DAX calculated columns
+- DAX measures
 - Interactive dashboard design
 - Business-oriented data visualization
-- Deriving insights from multiple dimensions of the dataset
+- Analysis across multiple dimensions
+- Deriving insights from the dataset
+- Exploring Power BI's analytical capabilities
+
+### DAX and Analysis
+
+As I progressed from the HR dashboard to the Superstore dashboard, I explored DAX in greater depth.
+
+I used calculated columns and measures to derive additional information from the underlying dataset and make the dashboard more useful for analysis.
+
+This helped me understand the difference between simply displaying existing data and creating calculated information that can answer specific business questions.
 
 ### Key Learning
 
-This was my first deeper exploration of Power BI.
+The project significantly improved my understanding of DAX and Power BI.
 
-Rather than learning the software only as part of coursework, I used the project to understand what could actually be done with the tool.
+I learned that dashboard creation is not simply about selecting visualizations. The underlying data, data model, calculated measures and analytical questions all play an important role in producing a useful dashboard.
 
-The experience later proved useful during my FedEx internship, where I used Power BI for more advanced dashboards and incorporated features such as bookmarks and navigation.
-
----
-
-# 05. HR Analysis Dashboard
-
-**Type:** Self-Initiated Project  
-**Area:** HR Analytics, Business Intelligence  
-**Technologies:** Power BI, DAX
-
-### Overview
-
-This was the first of my two self-initiated Power BI dashboard projects.
-
-I used an HR dataset obtained from Kaggle containing information about employees, including:
-
-- Age
-- Department
-- Attrition
-- Education
-- Job role
-- Job satisfaction
-- Salary
-- Performance
-- Work-life balance
-- Years of experience
-- Overtime
-- Promotion history
-- Other employee characteristics
-
-### What I Did
-
-I created an interactive HR Analysis Dashboard and used DAX calculations to derive additional information from the dataset.
-
-The objective was to explore employee-related patterns and understand how Power BI could be used to present HR data in a business-friendly format.
-
-### Key Learning
-
-This project helped me understand the basic capabilities of Power BI and gave me the foundation to explore DAX and more advanced dashboard functionality in my subsequent Superstore project.
+I also learned how the same dataset can be analysed from different business perspectives by changing the dimensions, measures and visualizations used.
 
 ---
+
+## Connection to Professional Experience
+
+The knowledge I gained from these two self-initiated Power BI projects later helped me during my FedEx internship.
+
+The independent exploration gave me familiarity with Power BI and DAX before I began using them in a professional environment.
+
+During my FedEx internship, I worked on interactive Power BI dashboards and used more advanced functionality, including bookmarks and navigation features.
+
+The experience from these projects therefore provided a foundation that made it easier for me to apply Power BI in a professional business context.
 
 # 06. Flood Area Segmentation Using Deep Learning
 
